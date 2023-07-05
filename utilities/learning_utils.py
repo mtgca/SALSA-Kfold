@@ -69,7 +69,7 @@ def count_model_params(model: nn.Module) -> None:
 
 
 class MyLoggingCallback(pl.Callback):
-    def __init__(self):
+    def __init__(self, val_perm):
         super().__init__()
         self.lit_logger = logging.getLogger('lightning')
         self.train_start_time = None
@@ -80,6 +80,7 @@ class MyLoggingCallback(pl.Callback):
         self.fit_end_time = None
         self.test_start_time = None
         self.test_end_time = None
+        self.val_perm = val_perm
 
     def on_init_start(self, trainer):
         self.lit_logger.info('Start initiating trainer!')
@@ -88,11 +89,11 @@ class MyLoggingCallback(pl.Callback):
         self.lit_logger.info('Finish initiating trainer.')
 
     def on_fit_start(self, trainer, pl_module):
-        self.lit_logger.info('Start training...')
+        self.lit_logger.info(f'Start training for validation fold permutation {self.val_perm}...')
         self.fit_start_time = time.time()
 
     def on_fit_end(self, trainer, pl_module):
-        self.lit_logger.info('Finish training!')
+        self.lit_logger.info(f'Finish training for validation fold permutation {self.val_perm} !')
         self.fit_end_time = time.time()
         duration = self.fit_end_time - self.fit_start_time
         self.lit_logger.info('Total training time: {} s'.format(time.strftime('%H:%M:%S', time.gmtime(duration))))

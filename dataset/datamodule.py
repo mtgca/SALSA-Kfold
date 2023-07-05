@@ -40,6 +40,8 @@ class SeldDataModule(pl.LightningDataModule):
             self.test_split = 'test'  # actually not used during eval
         else:
             raise NotImplementedError('Mode {} is not implemented!'.format(mode))
+        
+        self.val_perm = None
 
         # Data augmentation
         if audio_format == 'foa':
@@ -106,11 +108,11 @@ class SeldDataModule(pl.LightningDataModule):
         """
         # Get train and val data during training
         if stage == 'fit':
-            train_db = self.feature_db.get_split(split=self.train_split, split_meta_dir=self.split_meta_dir,
+            train_db = self.feature_db.get_split(split=self.train_split+'_perm{}'.format(str(self.val_perm)), split_meta_dir=self.split_meta_dir,
                                                  stage='fit')
             self.train_dataset = SeldDataset(db_data=train_db, joint_transform=self.train_joint_transform,
                                              transform=self.train_transform)
-            val_db = self.feature_db.get_split(split=self.val_split, split_meta_dir=self.split_meta_dir,
+            val_db = self.feature_db.get_split(split=self.val_split+'_perm{}'.format(str(self.val_perm)), split_meta_dir=self.split_meta_dir,
                                                stage='inference')
             self.val_dataset = SeldDataset(db_data=val_db)
             self.val_batch_size = val_db['test_batch_size']
@@ -154,3 +156,6 @@ class SeldDataModule(pl.LightningDataModule):
                           shuffle=False,
                           pin_memory=True,
                           num_workers=4)
+    
+    def set_val_perm(self, val_perm):
+        self.val_perm = val_perm

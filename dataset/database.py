@@ -214,8 +214,6 @@ class Database:
             # Get sed segment indices
             feature_idxes, feature_pointer = self.get_segment_idxes(
                 n_frames=n_frames, downsample_ratio=1, pointer=feature_pointer)
-            print("AQUI ESTAN LOS INDICES DE LOS FOLDS ----------------------------------------------------------------------------------")
-            print(filename)
 
             # Get gt segment indices
             gt_idxes, gt_pointer = self.get_segment_idxes(
