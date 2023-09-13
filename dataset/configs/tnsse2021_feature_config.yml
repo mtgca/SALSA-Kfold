@@ -1,6 +1,6 @@
 # Config to extract melspeciv, linspeciv, melspecgcc, linspecgcc feature for TAU-NIGENS Spatial Sound Events (TNSSE) 2021 dataset
-data_dir: '/home/cslab02/Desktop/CSdir/SALSA/base_folder'
-feature_dir: '/home/cslab02/Desktop/CSdir/SALSA/features'
+data_dir: '/home/lab1/Documents/GithubRepSALSAseldnet/SALSA-Kfold/base_folder' # Depends on where you put the dataset and computer
+feature_dir: '/home/lab1/Documents/GithubRepSALSAseldnet/SALSA-Kfold/features'
 data:
   format: 'foa'
   fs: 24000

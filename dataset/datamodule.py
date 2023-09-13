@@ -22,6 +22,7 @@ class SeldDataModule(pl.LightningDataModule):
         self.val_batch_size = val_batch_size
         self.inference_split = inference_split
         self.feature_type = feature_type
+        self.val_perm = None # permutation of validation data
         assert audio_format in ['foa', 'mic'], 'audio format {} is not valid'.format(audio_format)
 
         self.train_dataset = None
@@ -40,8 +41,6 @@ class SeldDataModule(pl.LightningDataModule):
             self.test_split = 'test'  # actually not used during eval
         else:
             raise NotImplementedError('Mode {} is not implemented!'.format(mode))
-        
-        self.val_perm = None
 
         # Data augmentation
         if audio_format == 'foa':
