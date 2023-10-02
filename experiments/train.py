@@ -28,8 +28,9 @@ def train(exp_config: str = './configs/seld.yml',
     :param resume: If true, resume training from the last epoch.
     """
     # Load config, create folders, logging
-    for curr_perm in range(val_perm, 6):
-        cfg = manage_experiments(exp_config=exp_config, exp_group_dir=exp_group_dir, exp_suffix=exp_suffix, is_train=True, val_perm=curr_perm)
+    curr_perm = 1
+    while curr_perm < 6:
+        cfg = manage_experiments(exp_config=exp_config, exp_group_dir=exp_group_dir, exp_suffix=exp_suffix, is_train=True)
         logger = logging.getLogger('lightning')
 
         # Set random seed for reproducible
@@ -41,6 +42,8 @@ def train(exp_config: str = './configs/seld.yml',
             if len(ckpt_list) > 0:
                 resume_from_checkpoint = os.path.join(cfg.dir.model.checkpoint, sorted(ckpt_list)[-1])
                 logger.info('Found checkpoint to be resume training at {}'.format(resume_from_checkpoint))
+                curr_perm = int(resume_from_checkpoint[-6]) # Consider checkpoint format is something like this epoch=002perm4.ckpt
+                resume = False
             else:
                 resume_from_checkpoint = None
         else:
@@ -110,17 +113,10 @@ def train(exp_config: str = './configs/seld.yml',
         if cfg.mode == 'crossval':
             logger.info('Best model checkpoint: {}'.format(save_best_model.best_model_path))
 
+        curr_perm += 1
         # Test: lightning default takes the best model
         # trainer.test()
         # HERE THE SCRIPT IS SAVING THE MODEL. RETRAIN WITH THE BEST IN EVERY FOLD.
 
-if __name__ == '__main__':
-    logs_path = './../outputs/crossval/foa/salsa/seld_test/logs' 
-    if os.path.exists(logs_path):
-        logs_list = [f for f in os.listdir(logs_path) if f.startswith('log') and f.endswith('txt')]
-        logs_list.sort()
-        val_perm = int(logs_list[-1][3])
-    else:
-        val_perm = 1
-        
+if __name__ == '__main__':        
     fire.Fire(train)

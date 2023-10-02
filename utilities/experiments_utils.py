@@ -15,8 +15,7 @@ from tqdm import tqdm
 def manage_experiments(exp_config: str = 'configs/exp1.yml',
                        exp_group_dir: str = '',
                        exp_suffix: str = '_first_exp',
-                       is_train: bool = True,
-                       val_perm: int = 1):
+                       is_train: bool = True):
     """
     Function to load config, create folder and logging.
     :param exp_config: Config file for experiments
@@ -43,7 +42,7 @@ def manage_experiments(exp_config: str = 'configs/exp1.yml',
     assert Path(cfg.dir.exp_dir).is_dir(), 'Experiment folder does not exist!'
 
     # Create logging
-    create_logging(log_dir=cfg.dir.logs_dir, val_perm=val_perm, filemode='a')
+    create_logging(log_dir=cfg.dir.logs_dir, filemode='a')
     logger = logging.getLogger('lightning')
 
     # Write config file to output folder
@@ -140,12 +139,12 @@ class TqdmLoggingHandler(logging.Handler):
             self.handleError(record)
 
 
-def create_logging(log_dir, val_perm, filemode='a') -> None:
+def create_logging(log_dir, filemode='a') -> None:
     """
     Initialize logger.
     """
     # log_filename
-    log_filename = os.path.join(log_dir, f'{str(val_perm)}log.txt')
+    log_filename = os.path.join(log_dir,'log.txt')
 
     if not logging.getLogger().hasHandlers():
         # basic config for logging
