@@ -48,7 +48,11 @@ class SeldDataModule(pl.LightningDataModule):
                 self.train_joint_transform = ComposeMapTransform([
                     TfmapRandomSwapChannelFoa(n_classes=feature_db.n_classes),
                     ])
-                self.train_transform = None
+                self.train_transform = ComposeTransformNp([
+                    RandomShiftUpDownNp(freq_shift_range=10),  # apply across all channels
+                    CompositeCutout(image_aspect_ratio=self.feature_db.train_chunk_len / 200,
+                                    n_zero_channels=3), 
+                ])
             elif self.feature_type == 'linspeciv':
                 self.train_joint_transform = ComposeMapTransform([
                     TfmapRandomSwapChannelFoa(n_classes=feature_db.n_classes),
