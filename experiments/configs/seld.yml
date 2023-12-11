@@ -1,6 +1,6 @@
 # MAP config
 name: 'map'
-feature_root_dir: '/home/csantamaria/SALSA_exp/SALSA-Kfold/features/salsa/foa/24000fs_512nfft_300nhop_5cond_9000fmaxdoa'
+feature_root_dir: '/home/csantamaria/SALSA_exp/db_ft/features/salsa/foa/24000fs_512nfft_300nhop_5cond_9000fmaxdoa'
 feature_type: 'salsa' # 'salsa' | 'melspeciv' | 'linspeciv' | 'melspecgcc' | 'linspecgcc'
 gt_meta_root_dir: '/home/csantamaria/SALSA_exp/SALSA-Kfold/base_folder' # add metadata_dev at least if you encounter file-not-found error
 split_meta_dir: 'dataset/meta/dcase2021/original'  # change to absolute path if you encounter file-not-found error
