@@ -31,8 +31,8 @@ model:
     decoder_size: 256
     freq_pool: 'avg'  # 'avg'| 'max'| 'avg_max'
 training:
-  train_batch_size: 64  # Reduce batch size if GPU is out of memory
-  val_batch_size: 64
+  train_batch_size: 32  # Reduce batch size if GPU is out of memory
+  val_batch_size: 32
   optimizer: 'adam'
   lr_scheduler:
     milestones:
