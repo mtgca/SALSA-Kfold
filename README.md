@@ -48,3 +48,10 @@ self.train_transform = ComposeTransformNp([
                           TfmapRandomSwapChannelFoa(n_classes=feature_db.n_classes)])
 ```
 - En caso de no querer DAT simplemente setear en `None`
+## 5. Ejecutar el experimento
+Una vez todo ha sido configurado de acuerdo a la necesidad, se debe ubicar en el directorio general del proyecto y ejecutar el comando `nohup make train &` (asegurarse de tener instalado nohup). Este comando comenzará a entrenar el modelo en segundo plano, para revisar el estado (épocas, métricas, etc.) se debe ejecutar el comando `cat nohup.out`.\
+Los resultados se irán guardando en una carpeta llamada `\Outputs`. 
+
+En caso de que el proceso termine inesperadamente (sea por un apagón de luz, colapso del servidor, etc.) ir al archivo `Makefile` y cambiar la configuración a `RESUME=True` línea 33 del archivo. Una vez realizado el cambio, ejecutar nuevamente el comando `nohup make train &`, esto reanudará el entrenamiento.
+
+**Nota:** La lógica de reanudación busca el último fold que se estaba ejecutando antes de la interrupción y vuelve a entrenar desde la época 0 de dicho fold. Por lo tanto, se debe borrar los resultados de las épocas que ya se habían ejecutado de dicho fold en las carpetas checkpoint, best para evitar duplicados y confusión.
