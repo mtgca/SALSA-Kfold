@@ -1,7 +1,7 @@
 # GUIA DE EJECUCIÓN DEL EXPERIMENTO
 ## 1. Creación de ambiente.
 Asegurarse de tener conda instalado en su computador. Con el archivo salsa_environment.yml se debe crear un ambiente con todas las librerías requeridas para el experimento\
-Usar el comando `conda env create -f salsa_environment.yml`
+Usar el comando `conda env create -f py37.yml`
 ## 2. Obtener la base de datos
 Para este experimento se utilizó la base de datos TAU-NIGENS Spatial Sound Events 2021, que se puede obtener en el siguiente link: https://zenodo.org/records/4844825\
 No es necesario descargar el formato MIC, únicamente hacerlo con FOA, ya que es el formato en el que se trabajó esta experimentación. Una vez descargado el dataset, organizarlo según la estructura planteada en el repositorio original https://github.com/thomeou/SALSA :
