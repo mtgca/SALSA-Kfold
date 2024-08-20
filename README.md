@@ -1,9 +1,84 @@
 # GUIA DE EJECUCIÓN DEL EXPERIMENTO
-## 1. Creación de ambiente.
-Asegurarse de tener conda instalado en su computador. Con el archivo salsa_environment.yml se debe crear un ambiente con todas las librerías requeridas para el experimento\
-Usar el comando `conda env create -f py37.yml`
+
+El experimento debe ejecutarse en el servidor A100 utilizando Termius.
+
+## 1. Clonar el repositorio de GitHub
+
+Una vez conectado al servidor A100, navegar al directorio donde se quiera clonar el repositorio. Una vez ahí, utilizar el siguiente comando para clonar el repositorio:
+
+`git clone https://github.com/mtgca/SALSA-Kfold.git`
+
+## 2. Instalar Anaconda
+
+Este experimento utiliza ambientes de Conda. Razón por la cual la instalación de Anaconda es necesaria. Para instalar Anaconda puedes seguir estos pasos:
+
+*	Descargar el instalador de Anaconda desde el sitio oficial. Usar el siguiente comando para descargar la última versión de Anaconda para Linux:
+
+  `wget https://repo.anaconda.com/archive/Anaconda3-2023.07-1-Linux-x86_64.sh`
+
+* Ejecutar el instalador de Anaconda usando el siguiente comando para iniciar la instalación:
+
+  `bash Anaconda3-2023.07-1-Linux-x86_64.sh`
+
+* Seguir las instrucciones de instalación:
+   * Acepta el acuerdo de licencia.
+   * Especifica el directorio de instalación (por defecto es `~/anaconda3`).
+   * Decide si quieres añadir Anaconda al PATH para que esté disponible globalmente en tu sistema. Esto se decide al llegar al siguiente aviso y escribiendo "yes":
+
+  ```bash
+  installation finished.
+  Do you wish to update your shell profile to automatically initialize conda? 
+  This will activate conda on startup and change the command prompt when activated.
+
+  If you'd prefer that conda's base environment not be activated on startup, 
+   run the following command when conda is activated:
+
+  conda config --set auto_activate_base false
+
+  You can undo this by running `conda init --reverse $SHELL`? [yes|no]
+  ```
+
+
+
+*	Recargar el shell para aplicar los cambios:
+
+  `source ~/.bashrc`
+*	Verificar la instalación con el comando:
+
+  `conda --version`
+
+Esto debería completar la instalación de Anaconda en el servidor A100.
+
+
+## 3. Creación de ambiente.
+
+Una vez ejecutados los pasos 1 y 2, la terminal dentro del servidor A100 en Termius debería verse de la siguiente manera:
+
+  ```
+  (base) username@deeplearning-srv:~$ conda --version
+  conda 23.5.2
+  (base) username@deeplearning-srv:~$ ls
+  anaconda3  Anaconda3-2023.07-1-Linux-x86_64.sh  SALSA-Kfold
+  ```
+
+Para continuar con el desarrollo del experimento es necesario:
+
+* Navegar al directorio del repositorio:
+
+  `cd SALSA-Kfold`
+
+* Crear un ambiente Conda con el archivo py37.yml: 
+
+  `conda env create -f py37.yml`
+
+* Activar el ambiente con:
+
+  `conda activate py37`
+
+
 ## 2. Obtener la base de datos
 Para este experimento se utilizó la base de datos TAU-NIGENS Spatial Sound Events 2021, que se puede obtener en el siguiente link: https://zenodo.org/records/4844825
+
 No es necesario descargar el formato MIC, únicamente hacerlo con FOA, ya que es el formato en el que se trabajó esta experimentación. Una vez descargado el dataset, organizarlo según la estructura planteada en el repositorio original https://github.com/thomeou/SALSA :
 ```
 ./
@@ -20,6 +95,132 @@ No es necesario descargar el formato MIC, únicamente hacerlo con FOA, ya que es
     ├──mic_dev
     └──mic_eval
   ```
+
+Se detallan las snstrucciones paso a paso para descargar, instalar zip, y descomprimir los archivos `foa_dev` y `metadata_dev`:
+* Crear la carpeta data en el directorio `SALSA-Kfold`
+
+  Primero, navega al directorio SALSA-Kfold y crea una carpeta llamada data para almacenar los archivos descargados:
+```
+cd ~/SALSA-Kfold
+mkdir data
+cd data
+```
+Este paso asegura que todos los archivos se almacenarán en la carpeta `data` dentro del directorio `SALSA-Kfold`.
+
+* Descargar el archivo `foa_dev.z01`
+
+  Usar `wget` para descargar el archivo `foa_dev.z01` desde el enlace de Zenodo:
+
+  `wget https://zenodo.org/record/4844825/files/foa_dev.z01?download=1 -O foa_dev.z01`
+
+* Descargar el archivo `foa_dev.zip`
+
+  De manera similar, descarga el archivo principal `foa_dev.zip`:
+
+  `wget https://zenodo.org/record/4844825/files/foa_dev.zip?download=1 -O foa_dev.zip`
+
+* Descargar el archivo `foa_eval.zip`
+
+  De manera similar, descarga el archivo principal `foa_dev.zip`:
+
+  `wget https://zenodo.org/record/4844825/files/foa_dev.zip?download=1 -O foa_eval.zip`
+
+* Descargar el archivo `metadata_dev.zip`
+
+  Por último, descarga el archivo `metadata_dev.zip` que contiene los metadatos necesarios para el experimento:
+
+  `wget https://zenodo.org/record/4844825/files/metadata_dev.zip?download=1 -O metadata_dev.zip`
+
+* Instalar zip (en caso de que no esté instalado)
+
+  Cuando se intente combinar los archivos utilizando el comando zip, puede que el sistema indique que zip no está instalado. Si recibe un error como este, seguir estos comandos:
+```
+sudo apt update
+sudo apt install zip
+```
+Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema le solicitará que ingrese su clave de usuario respectiva, necesitará contactar al administrador del sistema para que lo haga en su lugar.
+
+* Combinar las partes del archivo `foa_dev`
+
+  Después de instalar zip, puedes combinar las partes del archivo:
+
+  `zip -s 0 foa_dev.zip --out sfoa_dev.zip`
+
+  Este comando combinará las dos partes en un solo archivo llamado `sfoa_dev.zip`.
+
+* Descomprimir el archivo combinado
+
+  Una vez que hayas combinado los archivos, puedes descomprimir el archivo `sfoa_dev.zip` utilizando el comando unzip:
+
+  `unzip sfoa_dev.zip`
+
+  Este comando extraerá los archivos en el directorio actual.
+
+* Descomprimir el archivo `foa_eval.zip`
+
+  Descomprimir el archivo `sfoa_dev.zip` utilizando el comando unzip:
+
+  `unzip sfoa_dev.zip`
+
+  Este comando extraerá los archivos en el directorio actual.
+
+* Descomprimir el archivo `metadata_dev.zip`
+
+  Finalmente, descomprimir el archivo `metadata_dev.zip` con el siguiente comando:
+
+  `unzip metadata_dev.zip`
+
+  Esto extraerá los metadatos necesarios para el proyecto en el directorio actual.
+
+* Verificar el contenido
+
+  Para verificar que todos los archivos se hayan descargado y descomprimido correctamente, se puede listar el contenido del directorio data:
+
+  `ls`
+
+  Se deben ver las carpetas y archivos descomprimidos correspondientes a `foa_dev`, `foa_eval` y `metadata_dev`:
+
+  ```
+  (base) username@deeplearning-srv:~/SALSA-Kfold/data$ ls
+foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  sfoa_dev.zip
+  ```
+
+### Resumen de comandos 
+
+Crear la carpeta data:
+
+* `cd ~/SALSA-Kfold`
+
+* `mkdir data`
+
+* `cd data`
+
+Descargar los archivos:
+
+* `wget https://zenodo.org/record/4844825/files/foa_dev.z01?download=1 -O foa_dev.z01`
+
+* `wget https://zenodo.org/record/4844825/files/foa_dev.zip?download=1 -O foa_dev.zip`
+
+* `wget https://zenodo.org/record/4844825/files/foa_dev.zip?download=1 -O foa_eval.zip`
+
+* `wget https://zenodo.org/record/4844825/files/metadata_dev.zip?download=1 -O metadata_dev.zip`
+
+Instalar zip (en caso necesario):
+
+* `sudo apt update`
+
+* `sudo apt install zip`
+
+Combinar y descomprimir los archivos:
+
+* `zip -s 0 foa_dev.zip --out sfoa_dev.zip`
+
+* `unzip sfoa_dev.zip`
+
+* `unzip foa_eval.zip`
+
+* `unzip metadata_dev.zip`
+
 ## 3. Configuración de experimento
 - Ejecutar el script `make_folds.py`
 - Antes de entrenar el modelo se deben extraer las features de acuerdo a necesidad:
