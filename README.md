@@ -96,7 +96,7 @@ No es necesario descargar el formato MIC, únicamente hacerlo con FOA, ya que es
     └──mic_eval
   ```
 
-Se detallan las snstrucciones paso a paso para descargar, instalar zip, y descomprimir los archivos `foa_dev` y `metadata_dev`:
+Se detallan las snstrucciones paso a paso para descargar, instalar zip, y descomprimir los archivos `foa_dev`, `foa_eval` y `metadata_dev`:
 * Crear la carpeta data en el directorio `SALSA-Kfold`
 
   Primero, navega al directorio SALSA-Kfold y crea una carpeta llamada data para almacenar los archivos descargados:
@@ -121,7 +121,7 @@ Este paso asegura que todos los archivos se almacenarán en la carpeta `data` de
 
 * Descargar el archivo `foa_eval.zip`
 
-  De manera similar, descarga el archivo principal `foa_dev.zip`:
+  De manera similar, descarga el archivo principal `foa_eval.zip`:
 
   `wget https://zenodo.org/record/4844825/files/foa_dev.zip?download=1 -O foa_eval.zip`
 
@@ -158,9 +158,9 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
 * Descomprimir el archivo `foa_eval.zip`
 
-  Descomprimir el archivo `sfoa_dev.zip` utilizando el comando unzip:
+  Descomprimir el archivo `foa_eval.zip` utilizando el comando unzip:
 
-  `unzip sfoa_dev.zip`
+  `unzip foa_eval.zip`
 
   Este comando extraerá los archivos en el directorio actual.
 
