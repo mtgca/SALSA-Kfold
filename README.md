@@ -103,7 +103,6 @@ Se detallan las snstrucciones paso a paso para descargar, instalar zip, y descom
 ```
 cd ~/SALSA-Kfold
 mkdir data
-cd data
 ```
 
 
