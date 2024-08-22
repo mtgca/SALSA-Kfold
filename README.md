@@ -177,11 +177,17 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
 * Descomprimir el archivo `metadata_dev.zip`
 
-  Finalmente, descomprimir el archivo `metadata_dev.zip` con el siguiente comando:
+  Descomprimir el archivo `metadata_dev.zip` con el siguiente comando:
 
   `unzip metadata_dev.zip`
 
   Esto extraerá los metadatos necesarios para el proyecto en el directorio actual.
+
+* Descomprimir el archivo `metadata_eval.zip`
+
+  Finalmente, Descomprimir el archivo `metadata_eval.zip` con el siguiente comando:
+
+  `unzip metadata_eval.zip`
 
 * Verificar el contenido
 
@@ -189,11 +195,11 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
   `ls`
 
-  Se deben ver las carpetas y archivos descomprimidos correspondientes a `foa_dev`, `foa_eval` y `metadata_dev`:
+  Se deben ver las carpetas y archivos descomprimidos correspondientes a `foa_dev`, `foa_eval`, `metadata_eval` y `metadata_dev`:
 
   ```
   (base) username@deeplearning-srv:~/SALSA-Kfold/data$ ls
-foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  sfoa_dev.zip
+foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  metadata_eval metadata_eval.zip sfoa_dev.zip
   ```
 
 ### Resumen de comandos
@@ -203,6 +209,8 @@ Crear la carpeta data:
 * `cd ~/SALSA-Kfold`
 
 * `mkdir data`
+
+* `mv metadata_eval.zip data
 
 * `cd data`
 
@@ -231,6 +239,8 @@ Combinar y descomprimir los archivos:
 * `unzip foa_eval.zip`
 
 * `unzip metadata_dev.zip`
+
+* `unzip metadata_eval.zip`
 
 ## 3. Configuración de experimento
 - Ejecutar el script `make_folds.py`
