@@ -27,10 +27,10 @@ Este experimento utiliza ambientes de Conda. Razón por la cual la instalación 
 
   ```bash
   installation finished.
-  Do you wish to update your shell profile to automatically initialize conda? 
+  Do you wish to update your shell profile to automatically initialize conda?
   This will activate conda on startup and change the command prompt when activated.
 
-  If you'd prefer that conda's base environment not be activated on startup, 
+  If you'd prefer that conda's base environment not be activated on startup,
    run the following command when conda is activated:
 
   conda config --set auto_activate_base false
@@ -67,7 +67,7 @@ Para continuar con el desarrollo del experimento es necesario:
 
   `cd SALSA-Kfold`
 
-* Crear un ambiente Conda con el archivo py37.yml: 
+* Crear un ambiente Conda con el archivo py37.yml:
 
   `conda env create -f py37.yml`
 
@@ -96,7 +96,7 @@ No es necesario descargar el formato MIC, únicamente hacerlo con FOA, ya que es
     └──mic_eval
   ```
 
-Se detallan las snstrucciones paso a paso para descargar, instalar zip, y descomprimir los archivos `foa_dev`, `foa_eval` y `metadata_dev`:
+Se detallan las snstrucciones paso a paso para descargar, instalar zip, y descomprimir los archivos `foa_dev` y `metadata_dev`:
 * Crear la carpeta data en el directorio `SALSA-Kfold`
 
   Primero, navega al directorio SALSA-Kfold y crea una carpeta llamada data para almacenar los archivos descargados:
@@ -105,7 +105,19 @@ cd ~/SALSA-Kfold
 mkdir data
 cd data
 ```
-Este paso asegura que todos los archivos se almacenarán en la carpeta `data` dentro del directorio `SALSA-Kfold`.
+
+
+* Mover el archivo `metadata_eval` ya existente en el repositorio dentro de la carpeta `data`
+
+  Una vez clonado el repositorio, ubicarse en el directorio del mismo:
+
+  `cd ~/SALSA-Kfold`
+
+  Se encuentra dentro de este directorio el archivo `metadata_eval.zip`. Moverlo dentro del directorio `data` recientemente creado:
+
+  `mv metadata_eval.zip data`
+  
+  Este paso asegura que todos los archivos se almacenarán en la carpeta `data` dentro del directorio `SALSA-Kfold`.
 
 * Descargar el archivo `foa_dev.z01`
 
@@ -121,7 +133,7 @@ Este paso asegura que todos los archivos se almacenarán en la carpeta `data` de
 
 * Descargar el archivo `foa_eval.zip`
 
-  De manera similar, descarga el archivo principal `foa_eval.zip`:
+  De manera similar, descarga el archivo principal `foa_dev.zip`:
 
   `wget https://zenodo.org/record/4844825/files/foa_dev.zip?download=1 -O foa_eval.zip`
 
@@ -158,9 +170,9 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
 * Descomprimir el archivo `foa_eval.zip`
 
-  Descomprimir el archivo `foa_eval.zip` utilizando el comando unzip:
+  Descomprimir el archivo `sfoa_dev.zip` utilizando el comando unzip:
 
-  `unzip foa_eval.zip`
+  `unzip sfoa_dev.zip`
 
   Este comando extraerá los archivos en el directorio actual.
 
@@ -180,10 +192,12 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
   Se deben ver las carpetas y archivos descomprimidos correspondientes a `foa_dev`, `foa_eval` y `metadata_dev`:
 
-  `(base) username@deeplearning-srv:~/SALSA-Kfold/data$ ls`
-  `foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  sfoa_dev.zip`
+  ```
+  (base) username@deeplearning-srv:~/SALSA-Kfold/data$ ls
+foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  sfoa_dev.zip
+  ```
 
-### Resumen de comandos 
+### Resumen de comandos
 
 Crear la carpeta data:
 
@@ -232,11 +246,12 @@ Combinar y descomprimir los archivos:
   -  `mode: 'crossval'`
   -  `audio_format: 'foa'`
   -  `train_batch_size: 32`  # Reduce batch size if GPU is out of memory
-  -  `max_epochs: 50` # epoch counting from [0 to n-1],
-## 4. Cambios en el código de acuerdo a la DAT requerida 
+  -  `max_epochs: 50` # epoch counting from [0 to n-1]
+  
+## 4. Cambios en el código de acuerdo a la DAT requerida
 Un el archivo `dataset/datamodule.py` existe la clase SeldDataModule la cual contiene las configuraciones de data augmentation on the fly. Los cambios se deben hacer en el formato FOA entonces cualquier cambio solo se realiza de la línea 45 a la 71.
 - Primero, setear esta variable `self.train_joint_transform = None`
-- La variable `self.train_transform = ComposeTransformNp([])` debe tener los valores de la(s) DAT(s) que vayamos a usar: 
+- La variable `self.train_transform = ComposeTransformNp([])` debe tener los valores de la(s) DAT(s) que vayamos a usar:
   - RANDOM CUTOUT: RandomCutoutNp(always_apply=True, image_aspect_ratio=self.feature_db.train_chunk_len / 200, n_zero_channels=3)
   - CHANNEL SWAPPING: TfmapRandomSwapChannelFoa(n_classes=feature_db.n_classes)
   - FREQUENCY SHIFT: RandomShiftUpDownNp(freq_shift_range=10)
@@ -249,7 +264,7 @@ self.train_transform = ComposeTransformNp([
 - En caso de no querer DAT simplemente setear en `None`
 ## 5. Ejecutar el experimento
 Una vez todo ha sido configurado de acuerdo a la necesidad, se debe ubicar en el directorio general del proyecto y ejecutar el comando `nohup make train &` (asegurarse de tener instalado nohup). Este comando comenzará a entrenar el modelo en segundo plano, para revisar el estado (épocas, métricas, etc.) se debe ejecutar el comando `cat nohup.out`.\
-Los resultados se irán guardando en una carpeta llamada `\Outputs`. 
+Los resultados se irán guardando en una carpeta llamada `\Outputs`.
 
 En caso de que el proceso termine inesperadamente (sea por un apagón de luz, colapso del servidor, etc.) ir al archivo `Makefile` y cambiar la configuración a `RESUME=True` línea 33 del archivo. Una vez realizado el cambio, ejecutar nuevamente el comando `nohup make train &`, esto reanudará el entrenamiento.
 
