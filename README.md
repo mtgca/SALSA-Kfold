@@ -169,9 +169,9 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
 * Descomprimir el archivo `foa_eval.zip`
 
-  Descomprimir el archivo `sfoa_dev.zip` utilizando el comando unzip:
+  Descomprimir el archivo `foa_eval.zip` utilizando el comando unzip:
 
-  `unzip sfoa_dev.zip`
+  `unzip foa_eval.zip`
 
   Este comando extraerá los archivos en el directorio actual.
 
@@ -183,7 +183,7 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
   Esto extraerá los metadatos necesarios para el proyecto en el directorio actual.
 
-* Descomprimir el archivo `metadata_eval.zip`
+* Descomprimir el archivo `metadata_eval.zip` 
 
   Finalmente, Descomprimir el archivo `metadata_eval.zip` con el siguiente comando:
 
