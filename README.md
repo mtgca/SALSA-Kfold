@@ -256,7 +256,7 @@ Combinar y descomprimir los archivos:
   -  `max_epochs: 50` # epoch counting from [0 to n-1]
   
 ## 4. Cambios en el código de acuerdo a la DAT requerida
-Un el archivo `dataset/datamodule.py` existe la clase SeldDataModule la cual contiene las configuraciones de data augmentation on the fly. Los cambios se deben hacer en el formato FOA entonces cualquier cambio solo se realiza de la línea 45 a la 71.
+En el archivo `dataset/datamodule.py` existe la clase SeldDataModule la cual contiene las configuraciones de data augmentation on the fly. Los cambios se deben hacer en el formato FOA entonces cualquier cambio solo se realiza de la línea 45 a la 71.
 - Primero, setear esta variable `self.train_joint_transform = None`
 - La variable `self.train_transform = ComposeTransformNp([])` debe tener los valores de la(s) DAT(s) que vayamos a usar:
   - RANDOM CUTOUT: RandomCutoutNp(always_apply=True, image_aspect_ratio=self.feature_db.train_chunk_len / 200, n_zero_channels=3)
