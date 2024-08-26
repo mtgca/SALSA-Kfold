@@ -197,10 +197,8 @@ Nota: Si no tiene permisos sudo o acceso a la cuenta root, puesto que el sistema
 
   Se deben ver las carpetas y archivos descomprimidos correspondientes a `foa_dev`, `foa_eval`, `metadata_eval` y `metadata_dev`:
 
-  ```
-  (base) username@deeplearning-srv:~/SALSA-Kfold/data$ ls
-foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  metadata_eval metadata_eval.zip sfoa_dev.zip
-  ```
+  `(base) username@deeplearning-srv:~/SALSA-Kfold/data$ ls`
+  `foa_dev  foa_dev.z01  foa_dev.zip  foa_eval  foa_eval.zip  metadata_dev  metadata_dev.zip  metadata_eval metadata_eval.zip sfoa_dev.zip`
 
 ### Resumen de comandos
 
